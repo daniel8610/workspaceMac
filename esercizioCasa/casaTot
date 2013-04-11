@@ -1,0 +1,174 @@
+#//terra pianale//
+from pyplasm import *
+terra=AA(QUOTE)([[97],[160],[1]])
+terra=INSR(PROD)(terra)
+
+#//pilastri tondi aumenta gli intervalli a 50// pilastri terra piano//
+
+dom=PROD([INTERVALS(2*PI)(10),INTERVALS(2)(10),])
+def cerchio(p):
+	x,y=p
+	return [y*COS(x),y*SIN(x)]
+
+pilTon=MAP(cerchio)(dom)
+pilTon3d=PROD([pilTon,Q(27)])
+pilTon3d1=T([1,2])([20,2])(pilTon3d)
+pilTon3dserie=T([1,2,3])([95,2,1])(pilTon3d)
+elem=[pilTon3dserie,T([2])([39])]
+elems=NN(5)(elem)
+pilastri=STRUCT(elems)
+pilastriQuadrati0=AA(QUOTE)([[-4,-14,4,-71,-4],[-4,-35,4,-35,4,-35,4],[-1,-2.5,24.5]])
+pilastriQuadrati0=INSR(PROD)(pilastriQuadrati0)
+
+pillars0=STRUCT([pilastri,terra,pilTon3d1,pilastriQuadrati0])
+#//pilastri primo piano
+
+pilastri1Quadrati=AA(QUOTE)([[-4,-14,4,-71,4],[4,-35,4,-35,4,-35,-4,-35,4],[-1,-2.5,-24.5,-2.5,24.5]])
+pilastri1Quadrati3d=INSR(PROD)(pilastri1Quadrati)
+pilastro1Quadrato=AA(QUOTE)([[-4,-14,-4,-71,4],[-4,-35,-4,-35,-4,-35,4,-35,-4],[-1,-2.5,-24.5,-2.5,24.5]])
+pilastro1Quadrato3d=INSR(PROD)(pilastro1Quadrato)
+pilastroTondo=MAP(cerchio)(dom)
+pilastroTondo3d=PROD([pilastroTondo,Q(24.5)])
+pilastroTondo3d=T([1,2,3])([20,119,30.5])(pilastroTondo3d)
+
+pillars1=STRUCT([pilastri1Quadrati3d, pilastro1Quadrato3d, pilastroTondo3d])
+
+#//pilastri secondo piano
+
+pilastri2Quadrati=AA(QUOTE)([[-4,-14,4,-71,4],[4,-35,4,-35,4,-35,-4,-35,4],[-1,-2.5,-24.5,-2.5,-24.5,27]])
+pilastri2Quadrati3d=INSR(PROD)(pilastri2Quadrati)
+pilastro2Quadrato=AA(QUOTE)([[-4,-14,4,-71,-4],[-4,-35,-4,-35,-4,-35,4,-35,-4],[-1,-2.5,-24.5,-2.5,-24.5,27]])
+pilastro2Quadrato3d=INSR(PROD)(pilastro2Quadrato)
+
+pillars2=STRUCT([pilastri2Quadrati3d, pilastro2Quadrato3d])
+
+#//pilastri terzo piano
+pilastri3Quadrati=AA(QUOTE)([[-4,-14,4,-71,4],[-4,-35,-4,-35,4,-35,-4,-35,4],[-1,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,-2.5,27]])
+pilastri3Quadrati3d=INSR(PROD)(pilastri3Quadrati)
+pilastri3QuadratiPiccoli=AA(QUOTE)([[-18,2,-2,-71,-2,2],[2,-37,-2,-37,-4,-35,-4,-35,-4],[-1,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,-2.5,27]])
+pilastri3QuadratiPiccoli3d=INSR(PROD)(pilastri3QuadratiPiccoli)
+pilastro3QuadratoPiccolo=AA(QUOTE)([[-18,2,-2,-71,-2,-2],[-2,-37,2,-37,-4,-35,-4,-35,-4],[-1,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,-2.5,27]])
+pilastro3QuadratoPiccolo3d=INSR(PROD)(pilastro3QuadratoPiccolo)
+pilastro3Quadrato=AA(QUOTE)([[-4,-14,4,-71,-4],[-4,-35,-4,-35,-4,-35,4,-35,-4],[-1,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,-2.5,27]])
+pilastro3Quadrato3d=INSR(PROD)(pilastro3Quadrato)
+
+pillars3=STRUCT([pilastri3Quadrati3d, pilastri3QuadratiPiccoli3d, pilastro3QuadratoPiccolo3d, pilastro3Quadrato3d])
+
+
+building1=STRUCT([pillars0, pillars1, pillars2, pillars3])
+#/piano terra/
+floorA=AA(QUOTE)([[63,-34],[-21,18,4,35,4,35,4],[-1,2.5]])
+floorA=INSR(PROD)(floorA)
+floorB=AA(QUOTE)([[37,-60],[-21,-18,-4,-35,-4,-35,-4,17,-16,-7],[-1,2.5]])
+floorB=INSR(PROD)(floorB)
+floorC=AA(QUOTE)([[-63,5,-29],[-21,17],[-1,2.5]])
+floorC=INSR(PROD)(floorC)
+
+
+
+def cerchio(p):
+	x,y=p
+	return [y*COS(x),y*SIN(x)]
+
+dom1=PROD([INTERVALS(PI)(10),INTERVALS(18.5)(10),])
+mezzaCirco=MAP(cerchio)(dom1)
+mezzaCirco3d=PROD([mezzaCirco,Q(2.5)])
+mezzaCirco3d=T([1,2,3])([18.5,138,1])(mezzaCirco3d)
+
+dom2=PROD([INTERVALS(PI)(10),INTERVALS(8.5)(10),])
+mezzaCircopiccola=MAP(cerchio)(dom2)
+mezzaCircopiccola3d=PROD([mezzaCircopiccola,Q(2.5)])
+mezzaCircopiccola3d=R([1,2])(-PI/2)(mezzaCircopiccola3d)
+mezzaCircopiccola3d=T([1,2,3])([68,29.5,1])(mezzaCircopiccola3d)
+
+floor0=STRUCT([floorA, floorB,floorC, mezzaCirco3d,mezzaCircopiccola3d])
+
+#/primo piano/
+floor1A=AA(QUOTE)([[97],[68,-20,72],[-1,-2.5,-24.5,2.5]])
+floor1A=INSR(PROD)(floor1A)
+floor1B=AA(QUOTE)([[4,-15,78],[-68,20,-72],[-1,-2.5,-24.5,2.5]])
+floor1B=INSR(PROD)(floor1B)
+floor1C=CUBOID([15,17,2.5])
+floor1C=T([1,2,3])([4,-17,28])(floor1C)
+floor1=STRUCT([floor1A,floor1B,floor1C])
+
+#/secondo piano/
+floor2A=AA(QUOTE)([[4,15,-78],[-67,11,-31,-51],[-1,-2.5,-24.5,-2.5,-24.5,2.5]])
+floor2A=INSR(PROD)(floor2A)
+floor2B=AA(QUOTE)([[-4,-15,78],[-67,-11,82],[-1,-2.5,-24.5,-2.5,-24.5,2.5]])
+floor2B=INSR(PROD)(floor2B)
+floor2C=AA(QUOTE)([[4,15,-78],[-67,-11,-31,51],[-1,-2.5,-24.5,-2.5,-24.5,2.5]])
+floor2C=INSR(PROD)(floor2C)
+triangolo=MKPOL([[[0,0],[78,0],[0,-11] ],[[1,2,3]],None])
+floor2D=PROD([triangolo,Q(2.5)])
+floor2D=T([1,2,3])([19,78,55])(floor2D)
+floor2=STRUCT([floor2A, floor2B,floor2C,floor2D])
+
+#/terzo piano/
+floor3A=AA(QUOTE)([[97],[2,37,2,37,4,-35,-4,-4,31,4],[-1,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,2.5]])
+floor3A=INSR(PROD)(floor3A)
+floor3B=AA(QUOTE)([[4,-15,78],[-2,-37,-2,-37,-4,35,4,4,-31,-4],[-1,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,2.5]])
+floor3B=INSR(PROD)(floor3B)
+floor3=STRUCT([floor3A,floor3B])
+
+#/tetto/
+floor4A=AA(QUOTE)([[20,-77],[79,-81],[-1,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,2.5]])
+floor4A=INSR(PROD)(floor4A)
+floor4B=AA(QUOTE)([[97],[-78,82],[-1,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,-2.5,-24.5,2.5]])
+floor4B=INSR(PROD)(floor4B)
+floor4=STRUCT([floor4A, floor4B])
+
+building2=STRUCT([floor0,floor1,floor2,floor3,floor4])
+#//muri piano terra
+def arco3d(r1,r2,angolo,altezza):
+spessore=r2-r1
+dom=PROD([INTERVALS(angolo)(30),INTERVALS(spessore)(30)])
+dom=T(2)(r1)(dom)
+def arco(p):
+	x,y=p
+	return [y*COS(x),y*SIN(x)]
+arcoPieno=MAP(arco)(dom)
+arcoPieno=PROD([arcoPieno,Q(altezza)])
+return arcoPieno
+arco=arco3d(16,18.5,PI,24.5)
+arco=T([1,2,3])([18.7,138,3.5])(arco)
+
+#//north
+northA=AA(QUOTE)([[-4,-15,-4,74],[2.5,-24.5,2.5,-24.5,2.5,8],[4]])
+northA =INSR(PROD)(northA)
+northB=AA(QUOTE)([[4,-15,4,-68],[2.5,24.5,2.5,24.5,2.5,8],[4]])
+northB =INSR(PROD)(northB)
+northC=AA(QUOTE)([[-4,15,-4,-68],[-2.5,-24.5,37.5],[4]])
+northC=INSR(PROD)(northC)
+north=STRUCT([northA,northB,northC])
+north=R([2,3])(PI/2)(north)
+north=T([2,3])([4,28])(north)
+
+#//east
+eastA=AA(QUOTE)([[-22,138],[1,2.5,8,-7,9.5,2.5,7,-10,7.5,2.5,24.5,2.5,29],[4]])
+eastA =INSR(PROD)(eastA)
+eastB=AA(QUOTE)([[-22,-4,-8,126],[-1,-2.5,-8,7,-9.5,-2.5,-7,-10,-7.5,-2.5,-24.5,-2.5,-29],[4]])
+eastB =INSR(PROD)(eastB)
+eastC=AA(QUOTE)([[-22,1,-11,-126],[1,2.5,8,7,9.5,2.5,7,10,7.5,2.5,24.5,2.5,29],[4]])
+eastC =INSR(PROD)(eastC)
+eastD=AA(QUOTE)([[-22,-1,-11,-12,114],[-1,-2.5,-8,-7,-9.5,-2.5,-7,10,-7.5,-2.5,-24.5,-2.5,-29],[4]])
+eastD=INSR(PROD)(eastD)
+eastE=AA(QUOTE)([[22],[-1,-2.5,-8,-7,-9.5,-2.5,-7,-10,7.5,2.5,24.5,2.5,29],[4]])
+eastE=INSR(PROD)(eastE)
+east=STRUCT([eastA,eastB,eastC, eastD, eastE])
+east=R([2,3])(PI/2)(east)
+east=R([1,2])(-PI/2)(east)
+east=T([1,2,3])([4,160,1])(east)
+
+#//south
+southA=AA(QUOTE)([[97],[-1,-2.5,-24.5,2.5,10,-12,12.5,-12,12.5,-12,2.5],[4]])
+southA =INSR(PROD)(southA)
+southB=AA(QUOTE)([[4],[-1,-2.5,-24.5,2.5,10,12,12.5,12,12.5,12,2.5],[4]])
+southB =INSR(PROD)(southB)
+southC=AA(QUOTE)([[-4,-77,16],[-1,-2.5,-24.5,2.5,10,12,12.5,12,12.5,12,2.5],[4]])
+southC=INSR(PROD)(southC)
+
+south=STRUCT([southA,southB,southC])
+
+building3=STRUCT([north,east,arco])
+
